@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Chocolate Day 🍫</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 25%, #CD853F 50%, #F4A460 75%, #FFB6C1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background hearts */
+        .bg-heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.1;
+            animation: floatHeart 15s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.15;
+            }
+
+            90% {
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(139, 69, 19, 0.4);
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+            border: 5px solid #D2691E;
+            animation: containerPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes containerPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #8B4513, #D2691E, #FF69B4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: textShine 3s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes textShine {
+
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+
+            50% {
+                filter: brightness(1.3);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #8B4513;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .chocolate-bar {
+            width: 150px;
+            height: 100px;
+            background: linear-gradient(135deg, #6F4E37 0%, #8B4513 50%, #A0522D 100%);
+            border-radius: 10px;
+            margin: 30px auto;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: chocolateWiggle 2s ease-in-out infinite;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 5px;
+            padding: 5px;
+        }
+
+        .chocolate-bar::before {
+            content: '🍫';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+        }
+
+        .chocolate-piece {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            border-radius: 3px;
+            border: 1px solid #6F4E37;
+        }
+
+        @keyframes chocolateWiggle {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-3deg);
+            }
+
+            75% {
+                transform: rotate(3deg);
+            }
+        }
+
+        .surprise-btn {
+            background: linear-gradient(135deg, #FF69B4, #FFB6C1, #FFC0CB);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.4em;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .surprise-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .surprise-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .surprise-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 12px 30px rgba(255, 105, 180, 0.6);
+        }
+
+        .surprise-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #FFF5EE, #FFE4E1);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 450px;
+            position: relative;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 4px solid #FF69B4;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            color: #8B4513;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            color: #FF69B4;
+            transform: rotate(90deg);
+        }
+
+        .chocolate-image {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            font-size: 150px;
+            animation: spin 3s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+
+            0%,
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: rotate(10deg) scale(1.1);
+            }
+        }
+
+        .sweet-message {
+            font-size: 1.5em;
+            color: #8B4513;
+            margin-top: 20px;
+            font-weight: bold;
+            line-height: 1.6;
+        }
+
+        .sweet-message span {
+            color: #FF69B4;
+        }
+
+        /* Floating Hearts in Modal */
+        .floating-heart {
+            position: absolute;
+            font-size: 25px;
+            animation: floatUp 3s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-200px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Chocolate Drops */
+        .chocolate-drop {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #8B4513;
+            border-radius: 50%;
+            animation: drop 2s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes drop {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background floating hearts -->
+    <div class="bg-heart" style="left: 10%; animation-delay: 0s;">❤️</div>
+    <div class="bg-heart" style="left: 30%; animation-delay: 3s;">💕</div>
+    <div class="bg-heart" style="left: 50%; animation-delay: 6s;">💖</div>
+    <div class="bg-heart" style="left: 70%; animation-delay: 9s;">💗</div>
+    <div class="bg-heart" style="left: 90%; animation-delay: 12s;">❤️</div>
+
+    <div class="container">
+        <h1> Happy Chocolate Day Manasa (Bujuu)🍫🤍</h1>
+        <p class="subtitle">Sweetness & Love in Every Bite!</p>
+
+        <div class="chocolate-bar">
+            <div class="chocolate-piece"></div>
+            <div class="chocolate-piece"></div>
+            <div class="chocolate-piece"></div>
+            <div class="chocolate-piece"></div>
+            <div class="chocolate-piece"></div>
+            <div class="chocolate-piece"></div>
+        </div>
+
+        <button class="surprise-btn" onclick="showSurprise()"> Bujuu click This🍬</button>
+    </div>
+
+    <!-- Modal Popup -->
+    <div class="modal" id="surpriseModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+
+            <div class="chocolate-image">🍫</div>
+
+            <p class="sweet-message">
+                Life and love are a chocolate box,<br>
+                filled with sweetness and struggles,<br>
+                the hard pieces remind us<br>
+                why the sweet ones matter. ✨
+            </p>
+
+            <!-- Floating hearts -->
+            <div class="floating-heart" style="left: 10%; animation-delay: 0s;">❤️</div>
+            <div class="floating-heart" style="left: 30%; animation-delay: 0.5s;">💕</div>
+            <div class="floating-heart" style="left: 50%; animation-delay: 1s;">💖</div>
+            <div class="floating-heart" style="left: 70%; animation-delay: 1.5s;">💗</div>
+            <div class="floating-heart" style="left: 90%; animation-delay: 2s;">💝</div>
+        </div>
+    </div>
+
+    <script>
+        // Show surprise modal
+        function showSurprise() {
+            const modal = document.getElementById('surpriseModal');
+            modal.classList.add('active');
+            createChocolateDrops();
+            createConfetti();
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('surpriseModal');
+            modal.classList.remove('active');
+            // Clean up animations
+            document.querySelectorAll('.chocolate-drop, .confetti').forEach(el => el.remove());
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('surpriseModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Create chocolate drops animation
+        function createChocolateDrops() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const drop = document.createElement('div');
+                    drop.className = 'chocolate-drop';
+                    drop.style.left = Math.random() * 100 + '%';
+                    drop.style.animationDelay = Math.random() * 2 + 's';
+                    drop.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(drop);
+
+                    // Remove after animation
+                    setTimeout(() => drop.remove(), 4000);
+                }, i * 100);
+            }
+        }
+
+        // Create confetti animation
+        function createConfetti() {
+            const colors = ['#FF69B4', '#FFB6C1', '#FFC0CB', '#8B4513', '#D2691E', '#CD853F'];
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    document.body.appendChild(confetti);
+
+                    // Remove after animation
+                    setTimeout(() => confetti.remove(), 6000);
+                }, i * 50);
+            }
+        }
+
+        // Restart floating heart animations periodically
+        setInterval(() => {
+            const hearts = document.querySelectorAll('.floating-heart');
+            hearts.forEach(heart => {
+                heart.style.animation = 'none';
+                setTimeout(() => {
+                    heart.style.animation = '';
+                }, 10);
+            });
+        }, 3000);
+    </script>
+</body>
+
+</html>
